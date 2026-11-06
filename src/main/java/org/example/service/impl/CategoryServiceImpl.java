@@ -3,7 +3,6 @@ package org.example.service.impl;
 import org.example.mapper.CategoryMapper;
 import org.example.pojo.Category;
 import org.example.service.CategoryService;
-import org.example.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -19,10 +17,8 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public void add(Category category) {
-        Map<String,Object> map = ThreadLocalUtil.get();
-        int id =(Integer)map.get("id");
-        category.setCreateUser(id);
+    public void add(Category category, Integer userId) {
+        category.setCreateUser(userId);
         category.setCreateTime(LocalDateTime.now());
         category.setUpdateTime(LocalDateTime.now());
         categoryMapper.add(category);
@@ -35,9 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> list() {
-        Map<String,Object> map = ThreadLocalUtil.get();
-        int userId =(Integer)map.get("id");
+    public List<Category> list(Integer userId) {
         return categoryMapper.list(userId);
     }
 

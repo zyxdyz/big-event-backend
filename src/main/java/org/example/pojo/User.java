@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class User {
     private Integer id;//主键ID
     private String username;//用户名
-    //@JsonIgnore
+    @JsonIgnore
     private String password;//密码
 
     @NotNull

@@ -4,7 +4,7 @@ import org.example.pojo.Article;
 import org.example.pojo.PageBean;
 
 public interface ArticleService {
-    void add(Article article);
+    void add(Article article, Integer userId);
 
     void update(Article article);
 
@@ -12,5 +12,5 @@ public interface ArticleService {
 
     void delete(Integer id);
 
-    PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
+    PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state, Integer userId);
 }

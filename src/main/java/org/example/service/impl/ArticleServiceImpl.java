@@ -6,14 +6,12 @@ import org.example.mapper.ArticleMapper;
 import org.example.pojo.Article;
 import org.example.pojo.PageBean;
 import org.example.service.ArticleService;
-import org.example.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -21,9 +19,7 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleMapper articleMapper;
 
     @Override
-    public void add(Article article) {
-        Map<String,Object> map=ThreadLocalUtil.get();
-        Integer userId = (Integer)map.get("id");
+    public void add(Article article, Integer userId) {
         article.setCreateUser(userId);
         article.setCreateTime(LocalDateTime.now());
         article.setUpdateTime(LocalDateTime.now());
@@ -47,11 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state) {
+    public PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state, Integer userId) {
         PageBean<Article> pb = new PageBean<>();
         PageHelper.startPage(pageNum,pageSize);
-        Map<String,Object> map = ThreadLocalUtil.get();
-        Integer userId = (Integer)map.get("id");
         List<Article> as = articleMapper.list(userId,categoryId,state);
         Page<Article> p = (Page<Article>) as;
         pb.setTotal(p.getTotal());
